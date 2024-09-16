@@ -19,7 +19,7 @@ ClapTrap::ClapTrap(std::string const & name)
 	,_attackDamage(0)
 {
 	_printStats();
-	std::cout << _name << " Has been created with a name" << std::endl;
+	std::cout << _name << " Has been created with name " << std::endl;
 }
 
 ClapTrap::ClapTrap(ClapTrap const & src)
@@ -29,7 +29,7 @@ ClapTrap::ClapTrap(ClapTrap const & src)
 	,_attackDamage(src._attackDamage)
 {
 	_printStats();
-	std::cout << _name << " Has been cloned" << std::endl;
+	std::cout << _name << " Has been created with copy constructor " << std::endl;
 }
 
 ClapTrap::~ClapTrap(void)
@@ -46,8 +46,6 @@ ClapTrap & ClapTrap::operator=(ClapTrap const & src)
 		_hitPoints = src._hitPoints;
 		_energy = src._energy;
 		_attackDamage = src._attackDamage;
-		_printStats();
-		std::cout << _name << " Has been reasigned" << std::endl;
 	}
 	return *this;
 }
@@ -65,16 +63,15 @@ void ClapTrap::_printStats(void) const
 // Claptrap actions
 void ClapTrap::attack(std::string const & target)
 {
+	_printStats();
 	if (_energy > 0) 
 	{
 		_energy --;
-		_printStats();
 		std::cout << _name << " attacks " << target
 		<< ", causing " << _attackDamage << " points of damage!" << std::endl;
 	} 
 	else 
 	{
-		_printStats();
 		std::cout << _name << " Tried to attack " << target
 		<< ", but it's has no energy" << std::endl;
 	}
@@ -82,17 +79,16 @@ void ClapTrap::attack(std::string const & target)
 
 void ClapTrap::beRepaired(unsigned int amount)
 {
+	_printStats();
 	if (_energy > 0)
 	{
 		_hitPoints += amount;
 		_energy --;
-		_printStats();
 		std::cout << _name << " Got repaired by " << amount
 		<< " points of health" << std::endl;
 	}
 	else 
 	{
-		_printStats();
 		std::cout << _name << " Tried to repair itself"
 		<< ", but it has no energy" << std::endl;
 	}
@@ -100,6 +96,7 @@ void ClapTrap::beRepaired(unsigned int amount)
 
 void ClapTrap::takeDamage(unsigned int amount)
 {
+	_printStats();
 	if (amount > _hitPoints)
 	{
 		_hitPoints = 0;
@@ -108,7 +105,6 @@ void ClapTrap::takeDamage(unsigned int amount)
 	{
 		_hitPoints -= amount;
 	}
-	_printStats();
 	std::cout << _name << " Took " << amount
 	<< " points of damage!, ";
 	std::cout << _hitPoints << " Hit points left" << std::endl;

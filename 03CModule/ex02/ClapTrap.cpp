@@ -8,7 +8,7 @@ ClapTrap::ClapTrap(void)
 	,_energy(10)
 	,_attackDamage(0)
 {
-	std::cout << "ClapTrap " << _name << " Has been created with default constructor" << std::endl;	
+	std::cout << this << " ClapTrap " << _name << " Has been created with default constructor" << std::endl;	
 }
 	
 ClapTrap::ClapTrap(std::string const & name)
@@ -17,7 +17,7 @@ ClapTrap::ClapTrap(std::string const & name)
 	,_energy(10)
 	,_attackDamage(0)
 {
-	std::cout << "ClapTrap " << _name << " Has been created with a name" << std::endl;
+	std::cout << this << " ClapTrap " << _name << " Has been created with a name" << std::endl;
 }
 
 ClapTrap::ClapTrap(ClapTrap const & src)
@@ -26,12 +26,12 @@ ClapTrap::ClapTrap(ClapTrap const & src)
 	,_energy(src._energy)
 	,_attackDamage(src._attackDamage)
 {
-	std::cout << "ClapTrap " << _name << " Has been cloned" << std::endl;
+	std::cout << this << " ClapTrap " << _name << " Has been created with copy constructor" << std::endl;
 }
 
 ClapTrap::~ClapTrap(void)
 {
-	std::cout << "ClapTrap " << _name << " was destroyed" << std::endl;
+	std::cout << this << " ClapTrap " << _name << " was destroyed" << std::endl;
 }
 	
 ClapTrap & ClapTrap::operator=(ClapTrap const & src)
@@ -42,7 +42,6 @@ ClapTrap & ClapTrap::operator=(ClapTrap const & src)
 		_hitPoints = src._hitPoints;
 		_energy = src._energy;
 		_attackDamage = src._attackDamage;
-		std::cout << "ClapTrap " << _name << " Has been reasigned" << std::endl;
 	}
 	return *this;
 }

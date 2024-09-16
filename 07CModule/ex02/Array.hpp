@@ -6,27 +6,27 @@
 template<typename T>
 class Array
 {
-	public:
-		Array<T>(void);
-		Array<T>(unsigned int const & n);
-		Array<T>(Array<T> const & src);
-		~Array<T>(void);
-		Array<T> & operator=(Array<T> const & rhs);
-		T & operator[](unsigned int const & ind);
+public:
+	Array<T>(void);
+	Array<T>(unsigned int const & n);
+	Array<T>(Array<T> const & src);
+	~Array<T>(void);
+	Array<T> & operator=(Array<T> const & rhs);
+	T & operator[](unsigned int const & ind);
+	unsigned int size() const;
 
+	class OutOfBoundsException : public std::exception 
+	{
+		public:
+			virtual const char * what() const throw()
+			{
+				return ("Index out of bounds");
+			}
+	};
 
-		class OutOfBoundsException : public std::exception 
-		{
-			public:
-				virtual const char * what() const throw()
-				{
-					return ("Index out of bounds");
-				}
-		};
-
-	private:
-		unsigned int _size;
-		T * _array;
+private:
+	unsigned int _size;
+	T * _array;
 };
 
 template<typename T>
@@ -80,5 +80,12 @@ T & Array<T>::operator[](unsigned int const & ind)
 	}
 	return _array[ind];
 }
+
+template<typename T>
+unsigned int Array<T>::size() const
+{
+	return _size;
+}
+
 
 #endif

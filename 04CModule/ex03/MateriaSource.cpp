@@ -14,14 +14,10 @@ MateriaSource::MateriaSource(MateriaSource const & src)
 {
 	for (int i = 0; i < _MaxMateriaNumber; i++)
 	{
-		if (src._materias[i] != NULL)
-		{
+		if (src._materias[i])
 			_materias[i] = src._materias[i]->clone();
-		}
 		else
-		{
 			_materias[i] = NULL;
-		}
 	}
 	std::cout << "MateriaSource called with copy constructor" << std::endl;
 }
@@ -30,10 +26,8 @@ MateriaSource::~MateriaSource(void)
 {
 	for (int i = 0; i < _MaxMateriaNumber; i++)
 	{
-		if (_materias[i] != NULL)
-		{
-			delete _materias[i];
-		}
+		if (_materias[i])
+		 delete _materias[i];
 	}
 	std::cout << "MateriaSource destroyed" << std::endl;
 }
@@ -44,15 +38,10 @@ MateriaSource & MateriaSource::operator=(MateriaSource const & rhs)
 	{
 		for (int i = 0; i < _MaxMateriaNumber; i++)
 		{
-			if (_materias[i] != NULL)
-			{
-				delete _materias[i];
-				_materias[i] = NULL;
-			}
-			if (rhs._materias[i] != NULL)
-			{
+			if (rhs._materias[i])
 				_materias[i] = rhs._materias[i]->clone();
-			}
+			else
+				_materias[i] = NULL;
 		}
 	}
 	std::cout << "Assignment called, MateriaSource" << std::endl;
@@ -61,28 +50,27 @@ MateriaSource & MateriaSource::operator=(MateriaSource const & rhs)
 
 void MateriaSource::learnMateria(AMateria* materia)
 {
-	if (materia == NULL)
+	if (materia)
 	{
-		std::cout << "Invalid materia" << std::endl;
-		return ;
-	}
-	for (int i = 0; i < _MaxMateriaNumber; i++)
-	{
-		if (_materias[i] == NULL)
+		for (int i = 0; i < _MaxMateriaNumber; i++)
 		{
-			_materias[i] = materia;
-			std::cout << "Materia learned " << materia->getType() << std::endl;
-			return ;
+			if (_materias[i] == NULL)
+			{
+				_materias[i] = materia;
+				std::cout << "Materia learned " << materia->getType() << std::endl;
+				return ;
+			}
 		}
+		delete materia;
 	}
-	std::cout << "MateriaSource is full" << std::endl;
+	std::cout << "Couldn't learn materia" << std::endl;
 }
 
 AMateria* MateriaSource::createMateria(std::string const & type)
 {
-	for (int i = 0; i < _MaxMateriaNumber; i++)
+	for (int i = 0; i < _MaxMateriaNumber && _materias[i]; i++)
 	{
-		if (_materias[i] && _materias[i]->getType() == type)
+		if (_materias[i]->getType() == type)
 		{
 			return _materias[i]->clone();
 		}

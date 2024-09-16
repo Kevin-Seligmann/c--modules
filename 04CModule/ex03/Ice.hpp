@@ -5,15 +5,15 @@
 
 class Ice : public AMateria 
 {
-	public:
-		Ice(void);
-		Ice(Ice const & src);
-		~Ice(void);
+public:
+	Ice(void);
+	Ice(Ice const & src);
+	~Ice(void);
 
-		Ice & operator=(Ice const & rhs);
+	Ice & operator=(Ice const & rhs);
 
-		AMateria* clone() const;
-		void use(ICharacter& target);
+	AMateria* clone() const;
+	void use(ICharacter& target);
 };
 
 #endif

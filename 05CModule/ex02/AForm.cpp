@@ -2,13 +2,16 @@
 
 // Constructors, destructor, assignemnt
 AForm::AForm(void)
-:_name("Unnamed AForm"),
+:_name("Unnamed Form"),
 _itsSigned(false),
 _signGrade(150),
 _executionGrade(150)
 {
 	std::cout << this << " 'AForm' "
-	<< "Default constructor called."
+	<< "Default Constructor called. "
+	<< "Name: " << _name << ". "
+	<< "Sign grade: " << _signGrade << ". "
+	<< "Execution grade: " << _executionGrade << ". "
 	<< std::endl;
 }
 

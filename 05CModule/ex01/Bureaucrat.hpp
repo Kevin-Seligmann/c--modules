@@ -9,45 +9,46 @@ class Form;
 
 class Bureaucrat  
 {
-	public:
-		static const int MinGrade = 150;
-		static const int MaxGrade = 1;
 
-		Bureaucrat();
-		Bureaucrat(std::string const &, int);
-		Bureaucrat(Bureaucrat const &);
-		~Bureaucrat();
+public:
+	static const int MinGrade = 150;
+	static const int MaxGrade = 1;
 
-		Bureaucrat & operator=(Bureaucrat const &);
+	Bureaucrat(void);
+	Bureaucrat(std::string const &, int);
+	Bureaucrat(Bureaucrat const &);
+	~Bureaucrat(void);
 
-		std::string const & getName(void) const;
-		int getGrade(void) const;
+	Bureaucrat & operator=(Bureaucrat const &);
 
-		void incrementGrade(void);
-		void decrementGrade(void);
-		void signForm(Form & form) const;
+	std::string const & getName(void) const;
+	int getGrade(void) const;
 
-		class GradeTooHighException : public std::exception 
+	void incrementGrade(void);
+	void decrementGrade(void);
+	void signForm(Form & form) const;
+
+	class GradeTooHighException : public std::exception 
+	{
+		public:
+		virtual const char * what() const throw()
 		{
-			public:
-			virtual const char * what() const throw()
-			{
-				return ("Bureaucrat: Grade too high");
-			}
-		};
+			return ("Bureaucrat: Grade too high");
+		}
+	};
 
-		class GradeTooLowException : public std::exception
+	class GradeTooLowException : public std::exception
+	{
+		public:
+		virtual const char * what() const throw()
 		{
-			public:
-			virtual const char * what() const throw()
-			{
-				return ("Bureaucrat: Grade too low");
-			}
-		};
+			return ("Bureaucrat: Grade too low");
+		}
+	};
 
 	private:
-		int			_grade;
-		std::string _name;
+	int					_grade;
+	std::string const	_name;
 
 };
 

@@ -3,7 +3,7 @@
 
 RobotomyRequestForm::RobotomyRequestForm(void)
 :AForm("Robotomy request", 72, 45),
-_target("No target")
+_target("Unknown")
 {
 	std::cout << this << " 'AForm' "
 	<< "Default constructor called. "

@@ -4,10 +4,12 @@
 // Canonic
 Bureaucrat::Bureaucrat()
 :_grade(MinGrade),
-_name("Anonymous")
+_name("Unnamed bureaucrat")
 {
-	std::cout << this << " 'Bureaucrat' "
-	<< "Default constructor called."
+	std::cout << this << " 'Bureaucrat'. "
+	<< "Default Constructor called. " 
+	<< "Name: " << _name << ". " 
+	<< "Grade: " << _grade << ". "
 	<< std::endl;
 }
 
@@ -53,7 +55,6 @@ Bureaucrat::~Bureaucrat()
 
 Bureaucrat & Bureaucrat::operator=(Bureaucrat const & rhs)
 {
-	_name = rhs._name;
 	_grade = rhs._grade;
 	return *this;
 }

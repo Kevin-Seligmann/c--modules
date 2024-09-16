@@ -24,12 +24,16 @@ int main(void)
 	v.push_back(10);
 	v.push_back(21);
 
+	std::cout << "Expected: found" << std::endl;
 	it = easyfind(v, 30);
 	printIt(v, it, 30);
+	std::cout << "Expected: found" << std::endl;
 	it = easyfind(v, 10);
 	printIt(v, it, 10);
+	std::cout << "Expected: found" << std::endl;
 	it = easyfind(v, 21);
 	printIt(v, it, 21);
+	std::cout << "Expected: not found" << std::endl;
 	it = easyfind(v, 5);
 	printIt(v, it, 5);
 }

@@ -6,15 +6,15 @@
 template<typename T>
 class MutantStack : public std::stack<T>	
 {
-	public:
-		typedef typename std::deque<T>::iterator iterator;
-		MutantStack<T>();
-		MutantStack<T>(MutantStack const & src);
-		~MutantStack<T>(void);
-		MutantStack<T> & operator=(MutantStack<T> const & rhs);
+public:
+	typedef typename std::deque<T>::iterator iterator;
+	MutantStack<T>();
+	MutantStack<T>(MutantStack const & src);
+	~MutantStack<T>(void);
+	MutantStack<T> & operator=(MutantStack<T> const & rhs);
 
-		MutantStack<T>::iterator begin();
-		MutantStack<T>::iterator end();
+	MutantStack<T>::iterator begin();
+	MutantStack<T>::iterator end();
 };
 
 template<typename T>
@@ -22,19 +22,20 @@ MutantStack<T>::MutantStack(void)
 {}
 
 template<typename T>
-MutantStack<T>::MutantStack(MutantStack const & src):std::stack<T>::c(src.c){}
+MutantStack<T>::MutantStack(MutantStack const & src)
+:std::stack<T>()
+{
+	this->c = src.c;
+}
 
 template<typename T>
 MutantStack<T>::~MutantStack(void)
 {}
 
-MutantStack<T>::MutantStack(void)
-{}
-
 template<typename T>
 MutantStack<T> & MutantStack<T>::operator=(MutantStack const & rhs)
 {
-	this->c = rhs.c();
+	this->c = rhs.c;
 	return *this;
 }
 

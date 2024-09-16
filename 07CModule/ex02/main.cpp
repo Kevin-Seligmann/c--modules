@@ -2,89 +2,17 @@
 #include <stdlib.h>
 #include "Array.hpp"
 
-void ownTests(void)
+void writeTestSeparator(std::string testName)
 {
-	Array<int> B(5);
-
-	std::cout << std::endl << std::endl << "--- Basic ---"<< std::endl;
-//	// Default initalization // Commented to not have init error, uncomment if necessary to demonstrate
-//	for (int i = 0; i < 5; i ++)
-//	{
-//		std::cout << B[i] << " ";
-//	}
-//	std::cout << std::endl;
-
-	// Changing some values
-	for (int i = 0; i < 5; i ++)
-	{
-		B[i] = i;
-	}
-	for (int i = 0; i < 5; i ++)
-	{
-		std::cout << B[i] << " ";
-	}
-	std::cout << std::endl;
-
-	// Copy constructor
-	std::cout << std::endl << "--- Copy ---"<< std::endl;
-	Array<int> C(B);
-	B[1] = 10;
-	C[0] = 10;
-
-	for (int i = 0; i < 5; i ++)
-	{
-		std::cout << B[i] << " ";
-	}
-	std::cout << std::endl;
-	for (int i = 0; i < 5; i ++)
-	{
-		std::cout << C[i] << " ";
-	}
-	std::cout << std::endl;
-
-	// Assignment
-	std::cout << std::endl << "--- Assingment ---"<< std::endl;
-	Array<int> D;
-	D = C;
-	D[4] = 20;
-	C[3] = 20;
-	for (int i = 0; i < 5; i ++)
-	{
-		std::cout << C[i] << " ";
-	}
-	std::cout << std::endl;
-	for (int i = 0; i < 5; i ++)
-	{
-		std::cout << D[i] << " ";
-	}
-	std::cout << std::endl;
-
-	// Out of bounds
-	std::cout << std::endl << "--- Out of bounds ---" << std::endl;
-	try
-	{
-		Array<int> A;
-		A[0] = 1;
-	}
-	catch (Array<int>::OutOfBoundsException & e)
-	{
-		std::cout << "Should happen ! - " << e.what() << std::endl;
-	}
-
-	try
-	{
-		B[5] = 0;
-	}
-	catch (Array<int>::OutOfBoundsException & e)
-	{
-		std::cout << "Should happen ! - " << e.what() << std::endl;
-	}
+	std::cout << std::endl << testName
+	<< " ----------------------------------------------------"
+	<< std::endl << std::endl;	
 }
 
 #define MAX_VAL 750
-int main(int, char**)
+int subjectTest()
 {
-    Array<int> numbers(MAX_VAL);
+Array<int> numbers(MAX_VAL);
     int* mirror = new int[MAX_VAL];
     srand(time(NULL));
     for (int i = 0; i < MAX_VAL; i++)
@@ -129,7 +57,69 @@ int main(int, char**)
         numbers[i] = rand();
     }
     delete [] mirror;//
+	return 0;
+}
 
-	ownTests(); // Own tests
-    return 0;
+void printarr(Array<int> &test)
+{
+	unsigned int size = test.size();
+	std::cout << "{";
+	for (unsigned int i = 0; i < size ;i++)
+	{
+		std::cout << test[i];
+		if (i < size - 1)
+			std::cout << ", ";
+	}
+	std::cout << "}" << std::endl;
+}
+
+void ownTests()
+{
+	{
+		std::cout << "Expected: Canonical well defined" << std::endl;
+		Array<int> test1(5);
+		// Should print init error
+		// printarr(test, size);
+		for (int i = 0; i < 5; i ++)
+			test1[i] = i;
+		Array<int> test2(test1);
+		Array<int> test3;
+
+		std::cout << "Expected: Out of bounds catch" << std::endl;
+		try
+		{
+			test3[0];
+		}
+		catch (Array<int>::OutOfBoundsException & e)
+		{
+			std::cout << "Correct catch ! - " << e.what() << std::endl;
+		}
+
+		std::cout << "Expected: all printed arrays are equal" << std::endl;
+		test3 = test1;
+		printarr(test1);
+		printarr(test2);
+		printarr(test3);
+
+		std::cout << "Expected: Out of bounds catch" << std::endl;
+		try
+		{
+			test3[5];
+		}
+		catch (Array<int>::OutOfBoundsException & e)
+		{
+			std::cout << "Correct catch ! - " << e.what() << std::endl;
+		}
+	}
+}
+
+int main(int, char**)
+{
+	writeTestSeparator("Subject tests");
+	if (subjectTest() == 0)
+		std::cout << "Subject test passed" << std::endl;
+	else
+		std::cout << "Subjet test failed" << std::endl;
+	writeTestSeparator("Canonical tests");
+	ownTests();
 }

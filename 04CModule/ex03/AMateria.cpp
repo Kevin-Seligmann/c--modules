@@ -2,10 +2,7 @@
 #include <iostream>
 
 // Constructors, destructors
-AMateria::AMateria(void)
-{
-	std::cout << "Default constructor 'AMateria'" << std::endl;
-}
+AMateria::AMateria(void){}
 
 AMateria::AMateria(std::string const & type)
 :_type(type)
@@ -29,7 +26,7 @@ AMateria::~AMateria(void)
 AMateria & AMateria::operator=(AMateria const & rhs)
 {
 	(void) rhs;
-	std::cout << "Assingment 'AMateria' (type unchanged): " << _type << std::endl;
+	std::cout << "Assingment 'AMateria': " << _type << std::endl;
 	return *this;
 }
 
@@ -39,8 +36,10 @@ std::string const & AMateria::getType() const
 	return _type;
 }
 
-// Not specified by subject, could just print anything
 void AMateria::use(ICharacter& target)
 {
-	std::cout << target.getName() << " has felt the void" << std::endl;
+	if (_type == "ice")
+		std::cout << "* heals " << target.getName() << "'s wounds *" << std::endl;
+	else if (_type == "cure")
+		std::cout << "* shoots an ice bolt at " << target.getName() << " *" << std::endl;
 }

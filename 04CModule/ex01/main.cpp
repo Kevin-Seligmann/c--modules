@@ -7,9 +7,15 @@
 #include "WrongCat.hpp"
 #include "Brain.hpp"
 
-int main (void)
+void writeTestSeparator(std::string testName)
 {
-	// Subject
+	std::cout << std::endl << testName
+	<< " ----------------------------------------------------"
+	<< std::endl << std::endl;	
+}
+
+void subjectTest()
+{
 	Animal *animals[10];
 
 	for (int i = 0; i < 10; i ++)
@@ -23,58 +29,98 @@ int main (void)
 			animals[i] = new Cat();
 		}
 	}
-
 	for (int i = 0; i < 10; i ++)
 	{
 		delete animals[i];
 	}
+}
 
-	// Other
+void testBrainCanonical()
+{
+	writeTestSeparator("Brain canonical test");
+
 	{
-		Brain b;
-		Brain *c = new Brain();
+		std::cout << "Expected: Canonicals are well defined." << std::endl;
+		Brain test1;
+		for (int i = 0; i < 100; i ++)
+			test1.setIdea("Idea", i);
+		Brain test2(test1);
+		Brain test3;
 
-		b.setIdea("HI!", 0);
-
-		std::cout << b.getIdea(0) << std::endl;
-
-		std::cout << c->getIdea(0) << std::endl;
-		*c = b;
-		std::cout << c->getIdea(0) << std::endl;
-		delete c;
+		test3 = test1;
+		std::cout << test1.getIdea(50) << " " << test2.getIdea(50) << " " << test3.getIdea(50) << std::endl;
 	}
+}
+
+void testBrainGetSet()
+{
+	writeTestSeparator("Get and set test");
 
 	{
-		Brain *brain = new Brain(); 
-		Dog *dog = new Dog();
-		Dog *copyDog = new Dog(*dog);
-		Dog *copy2Dog = new Dog();
+		std::cout << "Expected: Get and set work correctly" << std::endl;
+		Brain test1;
+		std::cout << "Setting..." << std::endl;
+		for (int i = 0; i < 101; i ++)
+			test1.setIdea("Idea", i);
+		std::cout << "Getting..." << std::endl;
+		for (int i = 0; i < 101; i ++)
+			std::cout << test1.getIdea(i) << std::endl;
+	}
+}
+
+void testCatCanonical()
+{
+	writeTestSeparator("Cat canonical");
+
+	{
+		std::cout << "Expected: Canonicals are defined and work properly. Deep copies, no segfault or leaks." << std::endl;
+		Brain brain;
+		for (int i = 0; i < 100; i ++)
+			brain.setIdea("Idea", i);
+		Cat test1;
+		test1.setBrain(brain);
+		Cat test2(test1);
+		Cat test3;
+
+		test3 = test2;
+		test1.speakYourMind(50);
+		test2.speakYourMind(50);
+		test3.speakYourMind(50);
+	}
+}
+void testDogCanonical()
+{
+	writeTestSeparator("Dog canonical");
+
+	{
+		std::cout << "Expected: Canonicals are defined and work properly. Deep copies, no segfault or leaks." << std::endl;
+		Brain brain;
+		for (int i = 0; i < 100; i ++)
+			brain.setIdea("Idea", i);
+		Dog test1;
+		test1.setBrain(brain);
+		Dog test2(test1);
+		Dog test3;
+
+		test3 = test2;
+		test1.speakYourMind(50);
+		test2.speakYourMind(50);
+		test3.speakYourMind(50);
+	}
+}
+
+int main (void)
+{
+	writeTestSeparator("Subject test");
+	subjectTest();
+
+	writeTestSeparator("Brain tests");
+	testBrainGetSet();
+	testBrainCanonical();
+
+	writeTestSeparator("Cat and god tests");
+	testCatCanonical();
+	testDogCanonical();
 	
-		*copy2Dog = *dog;
-		dog->setBrain(*brain);
-
-		delete brain;
-		delete dog;
-		delete copyDog;
-		delete copy2Dog;
-	}
-
-	{
-		Brain *brain = new Brain(); 
-		Cat *cat = new Cat();
-		Cat *copyCat = new Cat(*cat);
-		Cat *copy2Cat = new Cat();
-		Cat *copycopy2Cat = copy2Cat;
-	
-		*copy2Cat = *cat;
-		*copy2Cat = *copycopy2Cat;
-		cat->setBrain(*brain);
-
-		delete brain;
-		delete cat;
-		delete copyCat;
-		delete copy2Cat;
-	}
-
 	return 0;
 }

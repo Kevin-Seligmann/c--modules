@@ -4,7 +4,7 @@
 // Constructors, destructores, copy, assignment
 FragTrap::FragTrap(void)
 {
-	std::cout << "FragTrap Has been created with default constructor" << std::endl;
+	std::cout << this << " FragTrap Has been created with default constructor" << std::endl;
 	_hitPoints = 100;
 	_energy = 100;
 	_attackDamage = 30;
@@ -13,7 +13,7 @@ FragTrap::FragTrap(void)
 FragTrap::FragTrap(std::string const & name)
 	:ClapTrap(name)
 {
-	std::cout << "FragTrap Has been created with a name " << _name << std::endl;
+	std::cout << this << " FragTrap Has been created with a name " << _name << std::endl;
 	_hitPoints = 100;
 	_energy = 100;
 	_attackDamage = 30;
@@ -22,15 +22,15 @@ FragTrap::FragTrap(std::string const & name)
 FragTrap::FragTrap(FragTrap const & src)
 	:ClapTrap(src)
 {
-	std::cout << "FragTrap Has been cloned" << std::endl;
-	_hitPoints = 100;
-	_energy = 100;
-	_attackDamage = 30;
+	std::cout << this << " FragTrap Has been created with copy constructor" << std::endl;
+	_hitPoints = src._hitPoints;
+	_energy = src._energy;
+	_attackDamage = src._attackDamage;
 }
 
 FragTrap::~FragTrap(void)
 {
-	std::cout << "FragTrap Was destroyed" << std::endl;
+	std::cout << this << " FragTrap Was destroyed" << std::endl;
 }
 
 FragTrap & FragTrap::operator=(FragTrap const & rhs)

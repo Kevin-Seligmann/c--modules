@@ -5,18 +5,20 @@
 
 class ShrubberyCreationForm : public AForm 
 {
-	public:
-		ShrubberyCreationForm(void);
-		ShrubberyCreationForm(std::string const & target);
-		ShrubberyCreationForm(ShrubberyCreationForm const & src);
-		~ShrubberyCreationForm(void);
+public:
+	ShrubberyCreationForm(void);
+	ShrubberyCreationForm(std::string const & target);
+	ShrubberyCreationForm(ShrubberyCreationForm const & src);
+	~ShrubberyCreationForm(void);
 
-		ShrubberyCreationForm & operator=(ShrubberyCreationForm const & rhs);
+	ShrubberyCreationForm & operator=(ShrubberyCreationForm const & rhs);
 
-		void concreteExecution(void) const;
+	void concreteExecution(void) const;
 
-	private:
-		std::string _target;
+private:
+	std::string _target;
+
+
 };
 
 #endif

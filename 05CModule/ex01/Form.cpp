@@ -8,7 +8,10 @@ _signGrade(150),
 _executionGrade(150)
 {
 	std::cout << this << " 'Form' "
-	<< "Default constructor called."
+	<< "Default Constructor called. "
+	<< "Name: " << _name << ". "
+	<< "Sign grade: " << _signGrade << ". "
+	<< "Execution grade: " << _executionGrade << ". "
 	<< std::endl;
 }
 

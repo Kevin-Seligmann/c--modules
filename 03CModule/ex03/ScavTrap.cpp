@@ -4,7 +4,7 @@
 // Constructors, destructores, copy, assignment
 ScavTrap::ScavTrap(void)
 {
-	std::cout << "ScavTrap Has been created with default constructor" << std::endl;
+	std::cout << this << " ScavTrap Has been created with default constructor" << std::endl;
 	_hitPoints = ScavDefaultHitPoints;
 	_energy = ScavDefaultEnergy;
 	_attackDamage = ScavDefaultAttackDamage;
@@ -13,7 +13,7 @@ ScavTrap::ScavTrap(void)
 ScavTrap::ScavTrap(std::string const & name)
 	:ClapTrap(name)
 {
-	std::cout << "ScavTrap Has been created with a name " << _name << std::endl;
+	std::cout << this << " ScavTrap Has been created with a name " << _name << std::endl;
 	_hitPoints = ScavDefaultHitPoints;
 	_energy = ScavDefaultEnergy;
 	_attackDamage = ScavDefaultAttackDamage;
@@ -22,15 +22,15 @@ ScavTrap::ScavTrap(std::string const & name)
 ScavTrap::ScavTrap(ScavTrap const & src)
 	:ClapTrap(src)
 {
-	std::cout << "ScavTrap Has been cloned" << std::endl;
-	_hitPoints = ScavDefaultHitPoints;
-	_energy = ScavDefaultEnergy;
-	_attackDamage = ScavDefaultAttackDamage;
+	std::cout << this << " ScavTrap Has been created with copy constructor" << std::endl;
+	_hitPoints = src._hitPoints;
+	_energy = src._energy;
+	_attackDamage = src._attackDamage;
 }
 
 ScavTrap::~ScavTrap(void)
 {
-	std::cout << "ScavTrap Was destroyed" << std::endl;
+	std::cout << this << " ScavTrap Was destroyed" << std::endl;
 }
 
 ScavTrap & ScavTrap::operator=(ScavTrap const & rhs)

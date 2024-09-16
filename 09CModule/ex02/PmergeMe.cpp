@@ -1,24 +1,36 @@
 #include "PmergeMe.hpp"
 
+// Generic
 namespace
 {
+void getNextInd(int & ind, int & jacobsthalInd, int & prevJacobsthal, int & jacobsthal, int & exp)
+{
+	ind --;
+	if (ind == prevJacobsthal)
+	{
+		jacobsthalInd ++;
+		prevJacobsthal = jacobsthal;
+		exp = 1 << jacobsthalInd;
+		jacobsthal = exp - prevJacobsthal;
+		ind = jacobsthal;
+	}
+}
 
-// Vector
 void printVector(std::vector<int> & vec)
 {
-	std::cout << "{";
 	for (std::vector<int>::iterator it = vec.begin(); it != vec.end(); it ++)
 	{
 		std::cout << *it ;
-		if (it + 1 != vec.end())
-		{
-			std::cout << ", ";
-		}
+		std::cout << " ";
 	}
-	std::cout << "}" << std::endl;
+	std::cout << std::endl;
+}
 }
 
-void swapInsidePartition(std::vector<int> & vec, int sortSize, int partitionMaxInd)
+// Vector
+namespace
+{
+void vectorSwapInsidePartition(std::vector<int> & vec, int sortSize, int partitionMaxInd)
 {
 	for (int partitionInd = 0; partitionInd < partitionMaxInd; partitionInd ++)
 	{
@@ -32,7 +44,7 @@ void swapInsidePartition(std::vector<int> & vec, int sortSize, int partitionMaxI
 	}
 }
 
-void separatePairs(std::vector<int> & vec, std::vector<int> & vecA, std::vector<int> & vecB, int sizeMaxInd, int sortSize)
+void vectorSeparatePairs(std::vector<int> & vec, std::vector<int> & vecA, std::vector<int> & vecB, int sizeMaxInd, int sortSize)
 {
 	int i;
 	vecA.reserve(vec.size());
@@ -57,20 +69,8 @@ void separatePairs(std::vector<int> & vec, std::vector<int> & vecA, std::vector<
 		}
 	}
 }
-void getNextInd(int & ind, int & jacobsthalInd, int & prevJacobsthal, int & jacobsthal, int & exp)
-{
-	ind --;
-	if (ind == prevJacobsthal)
-	{
-		jacobsthalInd ++;
-		prevJacobsthal = jacobsthal;
-		exp = std::pow(2, jacobsthalInd);
-		jacobsthal = exp - prevJacobsthal;
-		ind = jacobsthal;
-	}
-}
 
-void binaryInsert(std::vector<int> & vecA, std::vector<int> & vecB, int ind, int sortSize, int exp)
+void vectorBinaryInsert(std::vector<int> & vecA, std::vector<int> & vecB, int ind, int sortSize, int exp)
 {
 	int upperBound = std::min(static_cast<int>(vecA.size() / sortSize), exp);
 	int lowerBound = 0;
@@ -101,13 +101,13 @@ void vectorInsertion(std::vector<int> & vecA, std::vector<int> & vecB, int parti
 	int ind = 1;
 	int exp = 2;
 
-	binaryInsert(vecA, vecB, 1, sortSize, exp);
+	vectorBinaryInsert(vecA, vecB, 1, sortSize, exp);
 	while (1)
 	{
 		getNextInd(ind, jacobsthalInd, prevJacobsthal, jacobsthal, exp);
 		if (ind <= partitionMaxInd || (ind == partitionMaxInd + 1 && sizeMaxInd % 2 == 1))
 		{
-			binaryInsert(vecA, vecB, ind, sortSize, exp);
+			vectorBinaryInsert(vecA, vecB, ind, sortSize, exp);
 		}
 		if (prevJacobsthal > partitionMaxInd)
 		{
@@ -130,39 +130,103 @@ void PmergeMe::sortVector(std::vector<int> & vec, int sortSize)
 	{
 		return ;
 	}
-	swapInsidePartition(vec, sortSize, partitionMaxInd);
+	vectorSwapInsidePartition(vec, sortSize, partitionMaxInd);
 	PmergeMe::sortVector(vec, sortSize * 2);
-	separatePairs(vec, vecA, vecB, sizeMaxInd, sortSize);
+	vectorSeparatePairs(vec, vecA, vecB, sizeMaxInd, sortSize);
 	vectorInsertion(vecA, vecB, partitionMaxInd, sizeMaxInd, sortSize);
 	vec = vecA;
-	printVector(vec);
 }
 
-namespace 
+void PmergeMe::sortList(std::list<int> & lst)
 {
-void swapParts(std::list<int> & lst)
-{
-	std::list<int>::iterator it = lst.begin();
-	std::list<int>::iterator next = lst.begin() ++;
+	(void) lst;
+}
 
-	while (next != lst.end())
+void PmergeMe::buildVector(std::vector<int> & vec)
+{
+	int	n;
+	char **args = argv;
+	char *end;
+
+	while (*args)
 	{
-		if (*it < *next)
-		{
-			std::swap(it, next);
-		}
-		it ++;
-		next ++;
+        n = std::strtol(*args, &end, 10);
+ 		if (*end != '\0' || end == *args)
+            throw InvalidCharacterException();
+		if (n <= 0)
+			throw NonpositiveInputException();
+		if (std::find(vec.begin(), vec.end(), n) != vec.end())
+			throw RepeatedNumberException();
+		vec.push_back(n);
+		args ++;
 	}
 }
+
+void PmergeMe::buildList()
+{
+	int	n;
+	char **args = argv;
+	char *end;
+
+	while (*args)
+	{
+        n = std::strtol(*args, &end, 10);
+ 		if (*end != '\0' || end == *args)
+            throw InvalidCharacterException();
+		if (n <= 0)
+			throw NonpositiveInputException();
+		if (std::find(list.begin(), list.end(), n) != list.end())
+			throw RepeatedNumberException();
+		args ++;
+	}
 }
 
-void PmergeMe::sortList(std::list<int> & lst, int sortSize)
+void PmergeMe::doVectorSort()
 {
-	if (lst.size() * sortSize < 2)
-	{
-		return ;
-	}
-	swapParts(lst);
-	PmergeMe::sortList(lst, sortSize * 2);
+	struct timespec start;
+	struct timespec end;
+
+	clock_gettime(CLOCK_MONOTONIC, &start);
+	buildVector(vector);
+	clock_gettime(CLOCK_MONOTONIC, &end);
+	sortVector(vector, 1);
+	vectorTime = (double) (end.tv_sec - start.tv_sec) * 1000000. + (double) (end.tv_nsec - start.tv_nsec) / 1000;
 }
+
+void PmergeMe::doListSort()
+{
+	struct timespec start;
+	struct timespec end;
+
+	clock_gettime(CLOCK_MONOTONIC, &start);
+	buildList();
+	clock_gettime(CLOCK_MONOTONIC, &end);
+	listTime = (double) (end.tv_sec - start.tv_sec) * 1000000. + (double) (end.tv_nsec - start.tv_nsec) / 1000;
+}
+
+void PmergeMe::sort(char **argv)
+{
+	PmergeMe merger;
+	merger.argv = argv;
+	merger.buildVector(merger.input);
+
+	std::cout << "Before: ";
+	printVector(merger.input);
+
+	merger.doListSort();
+	merger.doVectorSort();
+
+	std::cout << "After: ";
+	printVector(merger.vector);
+
+	std::cout << std::fixed << std::setprecision(3);
+	std::cout << "Time to process a range of " << merger.vector.size() <<
+	" elements with std::vector: " << merger.vectorTime << " us" << std::endl;
+	std::cout << "Time to process a range of " << merger.vector.size() <<
+	" elements with std::list: " << merger.listTime << " us" << std::endl;
+}
+
+PmergeMe::PmergeMe(){}
+PmergeMe::~PmergeMe(){}
+PmergeMe::PmergeMe(PmergeMe const & src){(void) src;};
+PmergeMe & PmergeMe::operator=(PmergeMe const & rhs){(void) rhs; return *this;};

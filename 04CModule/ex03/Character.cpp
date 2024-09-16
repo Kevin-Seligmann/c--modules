@@ -3,12 +3,17 @@
 
 // Constructors, destructors
 Character::Character(void)
+:_name("Anonymous")
 {
 	for (int i = 0; i < _MaxInventory; i ++)
 	{
 		_inventory[i] = NULL;
 	}
-	std::cout << "Default constructor called, character" << std::endl;
+	for (int i = 0; i < _FloorLimit; i ++)
+	{
+		_floor[i] = NULL;
+	}
+	std::cout << "Default constructor called, character " << _name << std::endl;
 }
 
 Character::Character(std::string const & name)
@@ -17,6 +22,10 @@ Character::Character(std::string const & name)
 	for (int i = 0; i < _MaxInventory; i ++)
 	{
 		_inventory[i] = NULL;
+	}
+	for (int i = 0; i < _FloorLimit; i ++)
+	{
+		_floor[i] = NULL;
 	}
 	std::cout << "Constructor called, character " << _name << std::endl;
 }
@@ -34,6 +43,11 @@ Character::Character(Character const & src)
 			_inventory[i] = NULL;
 		}
 	}
+	for (int i = 0; i < _FloorLimit; i ++)
+	{
+		_floor[i] = NULL;
+	}
+	_name = src._name;
 	std::cout << "Copy constructor called, character " << _name << std::endl;
 }
 
@@ -46,6 +60,7 @@ Character::~Character(void)
 			delete _inventory[i];
 		}
 	}
+	cleanFloor();
 	std::cout << "Default destructor called, character " << _name << std::endl;
 }
 
@@ -64,6 +79,7 @@ Character & Character::operator=(Character const & rhs)
 			_inventory[i] = rhs._inventory[i]->clone();
 		}
 	}
+	_name = rhs._name;
 	std::cout << "Assignment called, character " << _name << std::endl;
 	return *this;
 }
@@ -96,20 +112,29 @@ void Character::equip(AMateria* m)
 
 void Character::unequip(int idx)
 {
-	if (idx < 0 || idx > _MaxInventory || _inventory[idx] == NULL)
+	if (idx < 0 || idx >= _MaxInventory || _inventory[idx] == NULL)
 	{
 		std::cout << "Can't unequip this" << std::endl;
 	}
 	else 
 	{
-		std::cout << "Unequiped " << _inventory[idx]->getType() << std::endl;
-		_inventory[idx] = NULL;
+		for (int i = 0; i < _FloorLimit; i++)
+		{
+			if (_floor[i] == NULL)
+			{
+				std::cout << "Unequiped " << _inventory[idx]->getType() << std::endl;
+				_floor[i] = _inventory[idx];
+				_inventory[idx] = NULL;
+				return ;
+			}
+		}
+		std::cout << "Floor full, clean it to unequip safely" << std::endl;
 	}
 }
 
 void Character::use(int idx, ICharacter& target)
 {
-	if (idx < 0 || idx > _MaxInventory || _inventory[idx] == NULL)
+	if (idx < 0 || idx >= _MaxInventory || _inventory[idx] == NULL)
 	{
 		std::cout << "Can't use this" << std::endl;
 	}
@@ -119,3 +144,14 @@ void Character::use(int idx, ICharacter& target)
 	}
 }
 
+void Character::cleanFloor()
+{
+	for (int i = 0; i < _FloorLimit; i ++)
+	{
+		if (_floor[i])
+		{
+			delete _floor[i];
+			_floor[i] = NULL;
+		}
+	}
+}

@@ -5,14 +5,14 @@
 
 class WrongCat : public WrongAnimal 
 {
-	public:
-		WrongCat(void);
-		WrongCat(WrongCat const & src);
-		~WrongCat(void);
+public:
+	WrongCat(void);
+	WrongCat(WrongCat const & src);
+	~WrongCat(void);
 
-		WrongCat & operator=(WrongCat const & rhs);
+	WrongCat & operator=(WrongCat const & rhs);
 
-		void makeSound(void) const;
+	void makeSound(void) const;
 };
 
 #endif

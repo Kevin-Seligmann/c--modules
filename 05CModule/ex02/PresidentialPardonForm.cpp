@@ -2,7 +2,7 @@
 
 PresidentialPardonForm::PresidentialPardonForm(void)
 :AForm("Presidental pardon", 25, 5),
-_target("No target")
+_target("Unknown")
 {
 	std::cout << this << " 'AForm' "
 	<< "Default constructor called. "

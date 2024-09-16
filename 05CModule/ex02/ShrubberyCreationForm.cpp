@@ -4,7 +4,7 @@
 
 ShrubberyCreationForm::ShrubberyCreationForm(void)
 :AForm("Shrubbery creation", 145, 137),
-_target("No target")
+_target("Unknown")
 {
 	std::cout << this << " 'AForm' "
 	<< "Default constructor called. "

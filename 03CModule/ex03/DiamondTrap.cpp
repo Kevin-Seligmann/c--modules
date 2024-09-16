@@ -8,7 +8,7 @@ DiamondTrap::DiamondTrap(void)
 	:ClapTrap("Default_clap_name"),
 	_name("Default")
 {
-	std::cout << "DiamondTrap Has been created with default constructor" << std::endl;
+	std::cout << this << " DiamondTrap Has been created with default constructor" << std::endl;
 	_hitPoints = DiamondDefaultHitPoints;
 	_energy = DiamondDefaultEnergy;
 	_attackDamage = DiamondDefaultAttackDamage;
@@ -18,7 +18,7 @@ DiamondTrap::DiamondTrap(std::string name)
 	:ClapTrap(name + "_clap_name"),
 	_name(name)
 {
-	std::cout << "DiamondTrap Has been created with a name " << _name << std::endl;
+	std::cout << this << " DiamondTrap Has been created with a name " << _name << std::endl;
 	_hitPoints = DiamondDefaultHitPoints;
 	_energy = DiamondDefaultEnergy;
 	_attackDamage = DiamondDefaultAttackDamage;	
@@ -30,21 +30,22 @@ DiamondTrap::DiamondTrap(DiamondTrap const & src)
 	ScavTrap(src._name),
 	_name(src._name)
 {
-	std::cout << "DiamondTrap Has been cloned" << std::endl;
-	_hitPoints = DiamondDefaultHitPoints;
-	_energy = DiamondDefaultEnergy;
-	_attackDamage = DiamondDefaultAttackDamage;
+	std::cout << this << " DiamondTrap Has been created with copy constructor" << std::endl;
+	_hitPoints = src._hitPoints;
+	_energy = src._energy;
+	_attackDamage = src._attackDamage;
 }
 
 DiamondTrap::~DiamondTrap(void)
 {
-	std::cout << "DiamondTrap Was destroyed" << std::endl;
+	std::cout << this << " DiamondTrap Was destroyed" << std::endl;
 }
 
 DiamondTrap & DiamondTrap::operator=(DiamondTrap const & rhs)
 {
 	ScavTrap::operator=(rhs);
 	FragTrap::operator=(rhs);
+	_name = rhs._name;
 	return *this;
 }
 

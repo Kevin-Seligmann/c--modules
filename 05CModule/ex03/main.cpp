@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cstdlib>
 
 #include "Intern.hpp"
 #include "Bureaucrat.hpp"
@@ -11,23 +10,22 @@
 int main(void)
 {
 	Intern someRandomIntern;
-	Form* rrf;
+	AForm* form;
 	
-	rrf = someRandomIntern.makeForm("robotomy request", "Bender");
-	std::cout << *rrf  << std::endl;;
-	delete rrf;
+	form = someRandomIntern.makeForm("robotomy request", "Bender");
+	std::cout << *form  << std::endl;;
+	delete form;
 	std::cout << std::endl;
 
-	rrf = someRandomIntern.makeForm("presidential pardon", "Bender");
-	std::cout << *rrf << std::endl;;
-	delete rrf;
+	form = someRandomIntern.makeForm("presidential pardon", "Bender");
+	std::cout << *form << std::endl;;
+	delete form;
 	std::cout << std::endl;
 	
-	rrf = someRandomIntern.makeForm("shrubbery creation", "Bender");
-	std::cout << *rrf << std::endl;;
-	delete rrf;
+	form = someRandomIntern.makeForm("shrubbery creation", "Bender");
+	std::cout << *form << std::endl;;
+	delete form;
 	std::cout << std::endl;
 
-	rrf = someRandomIntern.makeForm("NO NO NO !!! ", "Bender");
-
+	form = someRandomIntern.makeForm("Nuclear war plebiscite", "DJThomas");
 }

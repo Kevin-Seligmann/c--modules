@@ -1,22 +1,16 @@
 #include "Span.hpp"
 
-Span::Span():N(0)
-{
+Span::Span():N(0){}
 
-}
-
-Span::Span(unsigned int size):N(size)
-{}
+Span::Span(unsigned int size):N(size){}
 
 Span::Span(Span const & src):N(src.N)
 {
 	_v = src._v;
 }
 
-Span::~Span()
-{
+Span::~Span(){}
 
-}
 unsigned int Span::getSize(void) const
 {
 	return N;

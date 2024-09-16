@@ -1,44 +1,8 @@
 #include "ScalarConverter.hpp"
 
-ScalarConverter::ScalarConverter(){}
-
-ScalarConverter::ScalarConverter(ScalarConverter const & rhs){(void) rhs;}
-
-ScalarConverter::~ScalarConverter(){}
-
-ScalarConverter & ScalarConverter::operator=(ScalarConverter const & rhs){(void) rhs; return *this;}
-
-void ScalarConverter::convert(std::string & literal)
+namespace
 {
-	ScalarConverter converter = ScalarConverter();
-
-	if (converter._isPseudoLiteral(literal))
-	{
-		converter._printPseudoLiteral(literal);
-	}
-	else if (converter._isChar(literal))
-	{
-		converter._printChar(literal);
-	}
-	else if (converter._isInt(literal))
-	{
-		converter._printInt(literal);
-	}
-	else if (converter._isFloat(literal))
-	{
-		converter._printFloat(literal);
-	}
-	else if (converter._isDouble(literal))
-	{
-		converter._printDouble(literal);
-	}
-	else
-	{
-		std::cerr << "Invalid literal" << std::endl;
-	}
-}
-
-bool ScalarConverter::_isPseudoLiteral(std::string & literal) const
+bool isPseudoLiteral(std::string & literal)
 {
 	return (literal == "+inf" \
 	|| literal == "-inf" \
@@ -48,12 +12,12 @@ bool ScalarConverter::_isPseudoLiteral(std::string & literal) const
 	|| literal == "nanf");
 }
 
-bool ScalarConverter::_isChar(std::string & literal) const
+bool isChar(std::string & literal)
 {
 	return (literal.length() == 3 && literal.at(0) == '\'' && literal.at(2) == '\'');
 }
 
-bool ScalarConverter::_isInt(std::string & literal) const
+bool isInt(std::string & literal)
 {
 	std::string::iterator a = literal.begin();
 
@@ -72,77 +36,55 @@ bool ScalarConverter::_isInt(std::string & literal) const
 	return true;
 }
 
-bool ScalarConverter::_isFloat(std::string & literal) const
+bool isFloat(std::string & literal)
 {
 	std::string::iterator a = literal.begin();
 	bool point = false;
 
 	if (literal.length() < 3 || *(literal.end() - 1) != 'f' || *literal.begin() == '.')
-	{
 		return false;
-	}
 	if (*a == '+' || *a == '-')
-	{
 		a++;
-	}
 	while (a != literal.end())
 	{
 		if (*a == '.')
 		{
 			if (point == true)
-			{
 				return false;
-			}
-			else
-			{
-				point = true;
-			}
+			point = true;
 		}
 		else if (!isdigit(*a) && a != literal.end() - 1)
-		{
 			return false;
-		}
 		a++ ;
 	}
 	return point;
 }
 
-bool ScalarConverter::_isDouble(std::string & literal) const
+bool isDouble(std::string & literal)
 {
 	bool point = false;
 	std::string::iterator a = literal.begin();
 
 	if (literal.length() < 2)
-	{
 		return false;
-	}
 	if (*a == '+' || *a == '-')
-	{
 		a++;
-	}
 	while (a != literal.end())
 	{
 		if (*a == '.')
 		{
 			if (point == true)
-			{
 				return false;
-			}
-			else
-			{
-				point = true;
-			}
+			point = true;
 		}
 		else if (!isdigit(*a))
-		{
 			return false;
-		}
 		a++;
 	}
 	return point;
 }
 
-void ScalarConverter::_printPseudoLiteral(std::string & literal) const
+void printPseudoLiteral(std::string & literal)
 {
 	std::cout << "char: impossible" << std::endl;
 	std::cout << "int: impossible" << std::endl;
@@ -154,7 +96,7 @@ void ScalarConverter::_printPseudoLiteral(std::string & literal) const
 	std::cout << "double: " << literal << std::endl;
 }
 
-void ScalarConverter::_printChar(std::string & literal) const
+void printChar(std::string & literal)
 {
 	char c = literal.at(1);
 
@@ -171,7 +113,7 @@ void ScalarConverter::_printChar(std::string & literal) const
 	std::cout << static_cast<double>(c) << std::endl;
 }
 
-void ScalarConverter::_printInt(std::string & literal) const
+void printInt(std::string & literal)
 {
 	std::stringstream stream(literal);
 	int i = 0;
@@ -200,7 +142,7 @@ void ScalarConverter::_printInt(std::string & literal) const
 	std::cout << "double: " << static_cast<double>(i) << std::endl;
 }
 
-void ScalarConverter::_printFloat(std::string & literal) const
+void printFloat(std::string & literal)
 {
 	std::stringstream stream(literal);
 	float f = 0;
@@ -236,7 +178,7 @@ void ScalarConverter::_printFloat(std::string & literal) const
 	std::cout << std::setprecision(std::numeric_limits<long double>::digits10 + 1) << "double: " << static_cast<double>(f) << std::endl;
 }
 
-void ScalarConverter::_printDouble(std::string & literal) const
+void printDouble(std::string & literal)
 {
 	std::stringstream stream(literal);
 	double d = 0;
@@ -278,3 +220,25 @@ void ScalarConverter::_printDouble(std::string & literal) const
 	}
 	std::cout << std::setprecision(std::numeric_limits<long double>::digits10 + 1) << "double: " << d << std::endl;
 }
+}
+
+void ScalarConverter::convert(std::string & literal)
+{
+	if (isPseudoLiteral(literal))
+		printPseudoLiteral(literal);
+	else if (isChar(literal))
+		printChar(literal);
+	else if (isInt(literal))
+		printInt(literal);
+	else if (isFloat(literal))
+		printFloat(literal);
+	else if (isDouble(literal))
+		printDouble(literal);
+	else
+		std::cerr << "Invalid literal" << std::endl;
+}
+
+ScalarConverter::ScalarConverter(){};
+ScalarConverter::ScalarConverter(ScalarConverter const & src){(void) src;};
+ScalarConverter::~ScalarConverter(void){};
+ScalarConverter & ScalarConverter::operator=(ScalarConverter const & rhs){(void) rhs; return *this;};

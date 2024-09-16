@@ -6,20 +6,20 @@
 
 class Cat : public Animal 
 {
-	public:
-		Cat(void);
-		Cat(Cat const & src);
-		~Cat(void);
+public:
+	Cat(void);
+	Cat(Cat const & src);
+	~Cat(void);
 
-		Cat & operator=(Cat const & rhs);
+	Cat & operator=(Cat const & rhs);
 
-		void makeSound(void) const;
+	void makeSound(void) const;
+	void speakYourMind(unsigned int n) const;
+	void setBrain(Brain brain);
 
-		Brain	const *getBrain(void);
-		void	setBrain(Brain brain);
 
-	private:
-		Brain *_brain;
+private:
+	Brain *_brain;
 };
 
 #endif

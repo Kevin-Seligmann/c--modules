@@ -5,21 +5,20 @@
 
 class AAnimal
 {
-	public:
-		AAnimal(void);
-		AAnimal(AAnimal const & src);
-		virtual ~AAnimal(void);
+public:
+	AAnimal(void);
+	AAnimal(AAnimal const & src);
+	virtual ~AAnimal(void);
 
-		AAnimal & operator=(AAnimal const & rhs);
+	AAnimal & operator=(AAnimal const & rhs);
 
-		std::string const & getType(void) const;
-		void setType(std::string & type);
+	std::string const & getType(void) const;
+	void setType(std::string & type);
 
-		virtual void makeSound(void) const = 0;
+	virtual void makeSound(void) const = 0;
 
-	protected:
-		std::string _type;
-		
+protected:
+	std::string _type;
 };
 
 #endif

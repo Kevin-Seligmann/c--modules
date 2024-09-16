@@ -6,7 +6,7 @@ Cat::Cat(void)
 {
 	_type = "Cat";
 	_brain = new Brain();
-	std::cout << _type << ": Constructed by default (Cat)" << std::endl;
+	std::cout << this << " "  << _type << ": Constructed by default (Cat)" << std::endl;
 }
 
 Cat::Cat(Cat const & src)
@@ -15,13 +15,13 @@ Cat::Cat(Cat const & src)
 	_type = src._type;
 	_brain = new Brain();
 	*_brain = *src._brain;
-	std::cout << _type << ": Constructed by copy (Cat)" << std::endl;
+	std::cout << this << " "  << _type <<": Constructed by copy (Cat)" << std::endl;
 }
 
 Cat::~Cat(void)
 {
 	delete _brain;
-	std::cout << _type << ": Destroyed (Cat)" << std::endl;
+	std::cout << this << " "  << _type <<": Destroyed (Cat)" << std::endl;
 }
 
 Cat & Cat::operator=(Cat const & rhs)
@@ -33,19 +33,13 @@ Cat & Cat::operator=(Cat const & rhs)
 		_brain = new Brain();
 		*_brain = *rhs._brain;
 	}
-	std::cout << _type << ": Assigned (Cat)" << std::endl;
+	std::cout << this << " "  << _type << ": Assigned (Cat)" << std::endl;
 	return *this;
 }
 
 void Cat::makeSound(void) const
 {
-	delete _brain;
 	std::cout << _type << ": MEOOOOOOOOOOWWWW" << std::endl;
-}
-
-Brain const *Cat::getBrain(void)
-{
-	return _brain;
 }
 
 void	Cat::setBrain(Brain brain)
@@ -53,4 +47,9 @@ void	Cat::setBrain(Brain brain)
 	delete _brain;
 	_brain = new Brain();
 	*_brain = brain;
+}
+
+void Cat::speakYourMind(unsigned int n) const
+{
+	std::cout << _brain->getIdea(n) << std::endl;
 }

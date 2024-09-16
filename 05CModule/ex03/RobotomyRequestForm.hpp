@@ -5,18 +5,20 @@
 
 class RobotomyRequestForm : public AForm 
 {
-	public:
-		RobotomyRequestForm(void);
-		RobotomyRequestForm(std::string const & target);
-		RobotomyRequestForm(RobotomyRequestForm const & src);
-		~RobotomyRequestForm(void);
+public:
+	RobotomyRequestForm(void);
+	RobotomyRequestForm(std::string const & target);
+	RobotomyRequestForm(RobotomyRequestForm const & src);
+	~RobotomyRequestForm(void);
 
-		RobotomyRequestForm & operator=(RobotomyRequestForm const & rhs);
+	RobotomyRequestForm & operator=(RobotomyRequestForm const & rhs);
 
-		void concreteExecution(void) const;
+	void concreteExecution(void) const;
 
-	private:
-		std::string _target;
+private:
+	std::string _target;
+
+
 };
 
 #endif
