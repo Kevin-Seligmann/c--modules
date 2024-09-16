@@ -1,7 +1,7 @@
 VPATH = src
 
 # Files
-OBJ = main.o PmergeMe.o
+OBJ = main.o PmergeMe.o sortList.o sortVector.o
 
 # Target
 NAME = merger

@@ -42,17 +42,22 @@ ScavTrap & ScavTrap::operator=(ScavTrap const & rhs)
 // Other members
 void ScavTrap::attack(const std::string& target)
 {
-	if (_energy > 0) 
+	if (_hitPoints == 0)
+	{
+		std::cout << "ScavTrap " <<_name << " Tried to attack " << target
+		<< ", but it's in critical state" << std::endl;
+	}
+	else if (_energy == 0)
+	{
+		std::cout << "ScavTrap " << _name << " Tried to attack " << target
+		<< ", but it's has no energy" << std::endl;
+	}
+	else 
 	{
 		_energy --;
 		std::cout << "ScavTrap " << _name << " attacks " << target
 		<< ", causing " << _attackDamage << " points of damage!" << std::endl;
 	} 
-	else 
-	{
-		std::cout << "ScavTrap Tried to attack " << target
-		<< ", but it's has no energy" << std::endl;
-	}
 }
 void ScavTrap::guardGate()
 {

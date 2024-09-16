@@ -36,6 +36,7 @@ private:
 	void buildList();
 	void sortVector(std::vector<int> & vec, int sortSize);
 	void sortList(std::list<int> & lst);
+	void printVector(std::vector<int> & vec);
 
 	class NonpositiveInputException : public std::exception 
 	{

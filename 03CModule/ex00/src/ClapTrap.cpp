@@ -64,33 +64,43 @@ void ClapTrap::_printStats(void) const
 void ClapTrap::attack(std::string const & target)
 {
 	_printStats();
-	if (_energy > 0) 
+	if (_hitPoints == 0)
+	{
+		std::cout << _name << " Tried to attack " << target
+		<< ", but it's in critical state" << std::endl;
+	}
+	else if (_energy == 0)
+	{
+		std::cout << _name << " Tried to attack " << target
+		<< ", but it's has no energy" << std::endl;
+	}
+	else 
 	{
 		_energy --;
 		std::cout << _name << " attacks " << target
 		<< ", causing " << _attackDamage << " points of damage!" << std::endl;
 	} 
-	else 
-	{
-		std::cout << _name << " Tried to attack " << target
-		<< ", but it's has no energy" << std::endl;
-	}
 }
 
 void ClapTrap::beRepaired(unsigned int amount)
 {
 	_printStats();
-	if (_energy > 0)
+	if (_energy == 0)
+	{
+		std::cout << _name << " Tried to repair itself"
+		<< ", but it has no energy" << std::endl;
+	}
+	else if (_hitPoints == 0)
+	{
+		std::cout << _name << " Tried to repair itself"
+		<< ", but it's in critical state" << std::endl;
+	}
+	else 
 	{
 		_hitPoints += amount;
 		_energy --;
 		std::cout << _name << " Got repaired by " << amount
 		<< " points of health" << std::endl;
-	}
-	else 
-	{
-		std::cout << _name << " Tried to repair itself"
-		<< ", but it has no energy" << std::endl;
 	}
 }
 

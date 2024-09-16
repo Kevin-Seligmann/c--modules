@@ -27,6 +27,8 @@ void testDamage()
 		std::cout << "Expected: one big hit lowers hp directly to 0" << std::endl;
 		ClapTrap test1("Test1");
 		test1.takeDamage(100);
+		std::cout << "Expected: low health cant attack" << std::endl;
+		test1.attack("Target");
 	}
 	{
 		std::cout << "Expected: Many hits lowers hp slowly to 0" << std::endl;
