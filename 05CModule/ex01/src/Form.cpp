@@ -21,11 +21,11 @@ _itsSigned(false),
 _signGrade(signGrade),
 _executionGrade(executionGrade)
 {
-	if (signGrade < MaxGrade || executionGrade < MaxGrade)
+	if (signGrade < Bureaucrat::MaxGrade || executionGrade < Bureaucrat::MaxGrade)
 	{
 		throw Form::GradeTooHighException();
 	}
-	if (signGrade > MinGrade || executionGrade > MinGrade)
+	if (signGrade > Bureaucrat::MinGrade || executionGrade > Bureaucrat::MinGrade)
 	{
 		throw Form::GradeTooLowException();
 	}

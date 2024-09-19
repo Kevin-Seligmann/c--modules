@@ -10,9 +10,6 @@ class Form
 {
 
 public:
-	static const int MaxGrade = 1;
-	static const int MinGrade = 150;
-	
 	Form(void);
 	Form(std::string const & name, int signGrade, int executionGrade);
 	Form(Form const & src);

@@ -45,8 +45,8 @@ public:
 			return ("Bureaucrat: Grade too low");
 		}
 	};
-
-	private:
+	
+private:
 	int					_grade;
 	std::string const	_name;
 

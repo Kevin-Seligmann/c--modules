@@ -58,6 +58,7 @@ void PmergeMe::buildList()
 			throw NonpositiveInputException();
 		if (std::find(list.begin(), list.end(), n) != list.end())
 			throw RepeatedNumberException();
+		list.push_back(n);
 		args ++;
 	}
 }
@@ -74,6 +75,18 @@ void PmergeMe::doVectorSort()
 	vectorTime = (double) (end.tv_sec - start.tv_sec) * 1000000. + (double) (end.tv_nsec - start.tv_nsec) / 1000.;
 }
 
+void buildListofLists(std::list<std::list<int> > & lists, std::list<int> & lst)
+{
+	std::list<int>::iterator it = lst.begin();
+
+    while (it != lst.end())
+	{
+		lists.push_back(std::list<int>());
+		lists.back().push_front(*it);
+		it ++;
+	}
+}
+
 void PmergeMe::doListSort()
 {
 	struct timespec start;
@@ -81,7 +94,9 @@ void PmergeMe::doListSort()
 
 	clock_gettime(CLOCK_MONOTONIC, &start);
 	buildList();
-//	sortList(list);
+	std::list<std::list<int> > lists;
+	buildListofLists(lists, list);
+	sortList(lists);
 	clock_gettime(CLOCK_MONOTONIC, &end);
 	listTime = (double) (end.tv_sec - start.tv_sec) * 1000000. + (double) (end.tv_nsec - start.tv_nsec) / 1000.;
 }
@@ -90,22 +105,22 @@ void PmergeMe::sort(char **argv)
 {
 	PmergeMe merger;
 	merger.argv = argv;
-	merger.buildVector(merger.input);
+//	merger.buildVector(merger.input);
 
-	std::cout << "Before: ";
-	merger.printVector(merger.input);
+//	std::cout << "Before: ";
+//	merger.printVector(merger.input);
 
 	merger.doListSort();
-	merger.doVectorSort();
+//	merger.doVectorSort();
 
-	std::cout << "After: ";
-	merger.printVector(merger.vector);
+//	std::cout << "After: ";
+//	merger.printVector(merger.vector);
 
-	std::cout << std::fixed << std::setprecision(3);
-	std::cout << "Time to process a range of " << merger.vector.size() <<
-	" elements with std::vector: " << merger.vectorTime << " us" << std::endl;
-	std::cout << "Time to process a range of " << merger.vector.size() <<
-	" elements with std::list: " << merger.listTime << " us" << std::endl;
+//	std::cout << std::fixed << std::setprecision(3);
+//	std::cout << "Time to process a range of " << merger.vector.size() <<
+//	" elements with std::vector: " << merger.vectorTime << " us" << std::endl;
+//	std::cout << "Time to process a range of " << merger.vector.size() <<
+//	" elements with std::list: " << merger.listTime << " us" << std::endl;
 }
 
 PmergeMe::PmergeMe(){}

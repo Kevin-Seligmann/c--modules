@@ -18,7 +18,7 @@ public:
 	void makeSound(void) const;
 
 protected:
-	std::string _type		
+	std::string _type;
 };
 
 #endif

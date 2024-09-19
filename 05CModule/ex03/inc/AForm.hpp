@@ -10,9 +10,6 @@ class AForm
 {
 
 public:
-	static const int MaxGrade = 1;
-	static const int MinGrade = 150;
-
 	AForm(std::string const & name, int signGrade, int executionGrade);
 	AForm(AForm const & src);
 	virtual ~AForm(void);
